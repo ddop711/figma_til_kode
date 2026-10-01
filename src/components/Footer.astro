@@ -1,0 +1,57 @@
+---
+// src/components/Footer.astro
+---
+
+<footer>
+  <div class="logo">
+    <a href="/">Ask<span>Experts</span></a>
+  </div>
+
+  <p class="copyright">©2026 Consultalk. All rights reserved</p>
+
+  <div class="links">
+    <a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+<style>
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-ui-primary);
+    padding: 30px 100px;
+    border-top: 1px solid rgba(234, 237, 241, 0.1);
+  }
+
+  .logo a {
+    color: var(--color-surface-primary);
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .logo span {
+    color: var(--color-action);
+  }
+
+  .copyright {
+    color: var(--color-surface-tertiary);
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .links {
+    color: var(--color-surface-tertiary);
+    font-size: 14px;
+  }
+
+  .links a {
+    color: var(--color-surface-tertiary);
+    text-decoration: none;
+  }
+
+  .links a:hover {
+    color: var(--color-action);
+  }
+</style>

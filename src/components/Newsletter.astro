@@ -1,0 +1,84 @@
+---
+// src/components/Newsletter.astro
+---
+
+<section class="newsletter">
+  <span class="tag">STAY UPDATED</span>
+  <h2>Subscribe Our Newsletter</h2>
+  <p>Build stronger Customer Relationships with <span>Consultalk</span></p>
+
+  <form class="newsletter-form" onsubmit="event.preventDefault()">
+    <input type="email" placeholder="your mail address" required />
+    <button type="submit">Subscribe</button>
+  </form>
+</section>
+
+<style>
+  .newsletter {
+    background-color: var(--color-ui-primary);
+    color: var(--color-surface-primary);
+    text-align: center;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tag {
+    color: var(--color-action);
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 36px;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+  }
+
+  p {
+    color: var(--color-surface-tertiary);
+    font-size: 16px;
+    margin: 0 0 30px 0;
+  }
+
+  p span {
+    color: var(--color-action);
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    max-width: 500px;
+    justify-content: center;
+  }
+
+  input {
+    background-color: transparent;
+    border: 1px solid var(--color-surface-tertiary);
+    border-radius: 50px;
+    padding: 14px 24px;
+    color: var(--color-surface-primary);
+    font-size: 15px;
+    outline: none;
+    flex: 1;
+  }
+
+  input::placeholder {
+    color: var(--color-text-weak);
+  }
+
+  button {
+    background-color: var(--color-action);
+    color: var(--color-ui-primary);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+</style>
