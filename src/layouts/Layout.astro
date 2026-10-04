@@ -9,10 +9,10 @@ import Footer from "../components/Footer.astro";
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>DIN TITEL HER. MÅSKE SOM PROP?</title>
+    <title>AskExperts</title>
     <Font cssVariable="--font-cabin" preload />
     <Font cssVariable="--font-lato" preload />
     <style is:inline>
@@ -21,10 +21,52 @@ import Footer from "../components/Footer.astro";
   </head>
   <body>
     <Header />
-    <slot />
+    <main class="page-grid">
+      <slot />
+    </main>
     <Newsletter />
     <Footer />
   </body>
 </html>
 
-<style></style>
+<style>
+  :global(*, *::before, *::after) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :global(body) {
+    overflow-x: hidden;
+    width: 100%;
+    background-color: var(--color-surface-primary);
+    font-family: var(--font-family-secondary);
+  }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns:
+      [full-start] minmax(var(--space-md), 1fr)
+      [content-start] min(100% - (var(--space-md) * 2), 1200px) [content-end]
+      minmax(var(--space-md), 1fr) [full-end];
+  }
+
+  @media (min-width: 900px) {
+    .page-grid {
+      grid-template-columns:
+        [full-start] minmax(var(--space-2xl), 1fr)
+        [content-start] min(100% - (var(--space-2xl) * 2), 1200px) [content-end]
+        minmax(var(--space-2xl), 1fr) [full-end];
+    }
+  }
+
+  .page-grid > :global(section) {
+    grid-column: full;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+
+  .page-grid > :global(section > *) {
+    grid-column: content;
+  }
+</style>
