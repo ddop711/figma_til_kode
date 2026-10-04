@@ -1,31 +1,169 @@
 ---
+// src/components/Hero.astro
 import { Image } from "astro:assets";
 import Services from "./Services.astro";
 import CEOImage from "@assets/images/ceo.webp";
 ---
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>Empowering Your Business Growth</h1>
-    <p>
-      Discover tailored strategies and expert insights to take your business to
-      the next level. Let us help you navigate challenges and achieve
-      sustainable success.
-    </p>
-    <a href="#0">Book a Meeting</a>
-    <a href="#0">Learn More</a>
-  </div>
-  <Image src={CEOImage} alt="CEO" />
+<section class="hero-container">
+  <div class="content">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <h1>Empowering Your Business Growth</h1>
+        <p>
+          Discover tailored strategies and expert insights to take your business
+          to the next level. Let us help you navigate challenges and achieve
+          sustainable success.
+        </p>
 
-  <Services />
+        <div class="hero-buttons">
+          <a href="#0" class="btn-primary">Book a Meeting</a>
+          <a href="#0" class="btn-secondary">
+            Learn More <span>&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <Image src={CEOImage} alt="CEO" />
+      </div>
+    </div>
+
+    <div class="hero-services">
+      <Services />
+    </div>
+  </div>
 </section>
 
 <style>
-  /* Styles her */
   @layer components {
-    .hero {
-      background-color: #f3f4f6;
-      padding: 2rem;
+    .hero-container {
+      background-color: var(--color-ui-primary);
+      color: var(--color-surface-primary);
+      padding-top: var(--space-3xl);
+      padding-inline: var(--space-md);
+      position: relative;
+
+      .content {
+        max-width: 1200px;
+        margin-inline: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3xl);
+
+        .hero-grid {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-2xl);
+
+          .hero-content {
+            width: 100%;
+
+            h1 {
+              font-size: var(--font-size-xl);
+              font-family: var(--font-family-primary);
+              line-height: var(--line-height-heading);
+              font-weight: 700;
+              margin-bottom: var(--space-md);
+            }
+
+            p {
+              font-size: var(--font-size-base);
+              font-family: var(--font-family-secondary);
+              line-height: var(--line-height-body);
+              color: var(--color-text-weak);
+              margin-bottom: var(--space-xl);
+            }
+
+            .hero-buttons {
+              display: flex;
+              flex-wrap: wrap;
+              gap: var(--space-md);
+              align-items: center;
+
+              .btn-primary {
+                background-color: var(--color-action);
+                color: var(--color-ui-primary);
+                font-family: var(--font-family-secondary);
+                font-weight: 600;
+                font-size: var(--font-size-base);
+                padding: var(--space-sm) var(--space-xl);
+                border-radius: var(--radius-pill);
+                text-decoration: none;
+              }
+
+              .btn-secondary {
+                background-color: transparent;
+                color: var(--color-surface-primary);
+                border: 1px solid var(--color-neutrals-700);
+                font-family: var(--font-family-secondary);
+                font-weight: 500;
+                font-size: var(--font-size-base);
+                padding: var(--space-sm) var(--space-xl);
+                border-radius: var(--radius-pill);
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-xs);
+              }
+            }
+          }
+
+          .hero-image {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            img {
+              width: 100%;
+              max-width: 480px;
+              height: auto;
+              object-fit: cover;
+              border-radius: var(--radius-md);
+            }
+          }
+        }
+
+        /* MOBIL: */
+        .hero-services {
+          width: 100%;
+          padding-bottom: var(--space-3xl);
+        }
+
+        /* DESKTOP */
+        @media (min-width: 900px) {
+          .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            align-items: center;
+            gap: var(--space-4xl);
+
+            .hero-content h1 {
+              font-size: var(--font-size-2xl);
+            }
+
+            .hero-image {
+              justify-content: flex-end;
+
+              img {
+                max-width: 100%;
+              }
+            }
+          }
+
+          .hero-services {
+            padding-bottom: 0;
+            position: relative;
+            z-index: 10;
+            margin-bottom: -100px;
+          }
+        }
+      }
+
+      @media (min-width: 900px) {
+        padding-top: var(--space-4xl);
+        padding-inline: var(--space-2xl);
+      }
     }
   }
 </style>

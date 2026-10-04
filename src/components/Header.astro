@@ -1,70 +1,162 @@
 ---
 // src/components/Header.astro
+const pathname = Astro.url.pathname;
 ---
 
-<header>
-  <div class="logo">
-    <a href="/">Ask<span>Experts</span></a>
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo">
+      <a href="/">Ask<span>Experts</span></a>
+    </div>
+
+    <nav aria-label="Main Navigation">
+      <ul>
+        <li>
+          <a href="/" class={pathname === "/" ? "active" : ""}>Home</a>
+        </li>
+        <li>
+          <a
+            href="/case-studies"
+            class={pathname.includes("/case-studies") ? "active" : ""}
+            >Case Studies</a
+          >
+        </li>
+        <li>
+          <a href="/team" class={pathname.includes("/team") ? "active" : ""}
+            >Team</a
+          >
+        </li>
+        <li>
+          <a href="/about" class={pathname.includes("/about") ? "active" : ""}
+            >About</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="action">
+      <button type="button" class="login-btn">Login</button>
+    </div>
   </div>
-
-  <nav>
-    <ul>
-      <li><a href="/" class="active">Home</a></li>
-      <li><a href="/case-studies">Case Studies</a></li>
-      <li><a href="/team">Team</a></li>
-      <li><a href="/about">About</a></li>
-    </ul>
-  </nav>
-
-  <button class="login-btn">Login</button>
 </header>
 
 <style>
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--color-ui-primary);
-    padding: 30px 100px;
-  }
+  @layer components {
+    .site-header {
+      background-color: var(--color-ui-primary);
+      padding-block: var(--space-xl);
+      padding-inline: var(--space-lg);
+      width: 100%;
+      box-sizing: border-box;
 
-  .logo a {
-    color: var(--color-surface-primary);
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-  }
+      .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--space-xl);
+        width: 100%;
+        max-width: 1200px;
+        margin-inline: auto;
 
-  .logo span {
-    color: var(--color-action);
-  }
+        .logo a {
+          color: var(--color-surface-primary);
+          text-decoration: none;
+          font-size: var(--font-size-lg);
+          font-family: var(--font-family-primary);
+          font-weight: 700;
+          display: inline-block;
 
-  nav ul {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+          span {
+            color: var(--color-action);
+          }
+        }
 
-  nav a {
-    color: var(--color-surface-primary);
-    text-decoration: none;
-    font-size: 16px;
-  }
+        nav {
+          width: 100%;
 
-  nav a.active {
-    border-bottom: 3px solid var(--color-action);
-    padding-bottom: 5px;
-  }
+          ul {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-md);
+            list-style: none;
+            padding: 0;
+            margin: 0;
 
-  .login-btn {
-    background-color: var(--color-surface-primary);
-    color: var(--color-ui-primary);
-    border: none;
-    border-radius: 50px;
-    padding: 10px 30px;
-    font-weight: bold;
-    cursor: pointer;
+            li {
+              width: 100%;
+
+              a {
+                color: var(--color-surface-primary);
+                text-decoration: none;
+                font-family: var(--font-family-secondary);
+                font-size: var(--font-size-base);
+                display: inline-block;
+                padding-block: var(--space-xs);
+                border-bottom: 2px solid transparent;
+
+                &.active {
+                  border-bottom-color: var(--color-action);
+                }
+              }
+            }
+          }
+        }
+
+        .action {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          .login-btn {
+            background-color: var(--color-surface-primary);
+            color: var(--color-ui-primary);
+            border: none;
+            border-radius: var(--radius-pill);
+            padding-block: var(--space-xs);
+            padding-inline: var(--space-2xl);
+            font-family: var(--font-family-secondary);
+            font-size: var(--font-size-base);
+            font-weight: 700;
+            cursor: pointer;
+          }
+        }
+
+        @media (min-width: 900px) {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+          gap: var(--space-xl);
+
+          nav {
+            width: auto;
+
+            ul {
+              flex-direction: row;
+              gap: var(--space-2xl);
+
+              li {
+                width: auto;
+              }
+            }
+          }
+
+          .action {
+            width: auto;
+
+            .login-btn {
+              padding-block: var(--space-sm);
+              padding-inline: var(--space-xl);
+            }
+          }
+        }
+      }
+
+      @media (min-width: 900px) {
+        padding-block: var(--space-lg);
+        padding-inline: var(--space-2xl);
+      }
+    }
   }
 </style>

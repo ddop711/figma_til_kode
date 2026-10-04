@@ -18,76 +18,306 @@ const { caseName, category, date, image, buttonLabel } = caseStudy.caseDetails;
 ---
 
 <Layout>
-  <article class="case-story-article">
-    <header>
-      <Image
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-      />
-      <div class="case-details">
-        <dl>
-          <div>
-            <dt>Case Name</dt>
-            <dd>{caseName}</dd>
-          </div>
-          <div>
-            <dt>Category</dt>
-            <dd class="category">{category}</dd>
-          </div>
-          <div>
-            <dt>Date</dt>
-            <dd class="date">{date}</dd>
-          </div>
-        </dl>
-        <a href="#0" class="button">{buttonLabel}</a>
-      </div>
-    </header>
-    <section class="case-story-content">
-      {
-        caseStudy.sections.map((section, index) => (
-          <>
-            {index === 0 ? (
-              <h2>{section.title}</h2>
-            ) : (
-              <h3>{section.title}</h3>
-            )}
+  <section class="case-study-page">
+    <article class="case-story-article">
+      <!-- Hero / Header -->
+      <header class="case-hero">
+        <span class="eyebrow">CASE STUDIES</span>
+        <h1 class="hero-title">{caseStudy.title || caseName}</h1>
+        <p class="hero-intro">
+          {
+            caseStudy.intro ||
+              "Our achievements reflect the close collaboration between our expert teams and our esteemed clientele. We cultivate a workplace that champions peak performance and guarantees client satisfaction."
+          }
+        </p>
 
-            {Array.isArray(section.content) ? (
-              <>
-                {section.content.map((item) => (
-                  <p>{item}</p>
-                ))}
-              </>
-            ) : (
-              <p>{section.content}</p>
-            )}
-            {section.highlights && (
-              <ul>
-                {section.highlights.map((highlight) => (
-                  <li>{highlight}</li>
-                ))}
-              </ul>
-            )}
-            {section.image && (
-              <figure>
-                <Image
-                  src={section.image.src}
-                  alt={section.image.alt}
-                  width={section.image.width}
-                  height={section.image.height}
-                />
-                {section.image.caption && (
-                  <figcaption>{section.image.caption}</figcaption>
-                )}
-              </figure>
-            )}
-          </>
-        ))
-      }
-    </section>
-  </article>
+        <div class="image-wrapper">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            class="hero-img"
+          />
+          <div class="case-details">
+            <dl>
+              <div>
+                <dt>Case Name</dt>
+                <dd>{caseName}</dd>
+              </div>
+              <div>
+                <dt>Category</dt>
+                <dd class="category">{category}</dd>
+              </div>
+              <div>
+                <dt>Date</dt>
+                <dd class="date">{date}</dd>
+              </div>
+            </dl>
+            <a href="#0" class="button">{buttonLabel}</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tekstindhold med --flow-space vertikal rytme -->
+      <section class="case-story-content flow">
+        {
+          caseStudy.sections.map((section, index) => (
+            <>
+              {index === 0 ? (
+                <h2>{section.title}</h2>
+              ) : (
+                <h3>{section.title}</h3>
+              )}
+
+              {Array.isArray(section.content) ? (
+                <>
+                  {section.content.map((item) => (
+                    <p>{item}</p>
+                  ))}
+                </>
+              ) : (
+                <p>{section.content}</p>
+              )}
+
+              {section.highlights && (
+                <ul class="highlights">
+                  {section.highlights.map((highlight) => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+              )}
+
+              {section.image && (
+                <figure class="section-figure">
+                  <Image
+                    src={section.image.src}
+                    alt={section.image.alt}
+                    width={section.image.width}
+                    height={section.image.height}
+                  />
+                  {section.image.caption && (
+                    <figcaption>{section.image.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+            </>
+          ))
+        }
+      </section>
+    </article>
+  </section>
 </Layout>
 
-<style></style>
+<style>
+  .case-story-article {
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    padding-block: var(--space-4xl, 60px) var(--space-6xl, 100px);
+
+    .case-hero {
+      width: 100%;
+      text-align: center;
+      margin-bottom: var(--space-4xl, 48px);
+
+      .eyebrow {
+        color: var(--color-action, #ffcc4a);
+        font-size: var(--font-size-sm, 14px);
+        font-family: var(--font-family-secondary, sans-serif);
+        letter-spacing: 2px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: var(--space-xs, 8px);
+        display: block;
+      }
+
+      .hero-title {
+        font-size: clamp(32px, 5vw, 48px);
+        font-family: var(--font-family-primary, serif);
+        line-height: var(--line-height-heading, 1.2);
+        font-weight: 700;
+        color: var(--color-text, #181818);
+        margin: 0 0 var(--space-sm, 16px) 0;
+      }
+
+      .hero-intro {
+        color: var(--color-text-muted, #595566);
+        font-size: var(--font-size-base, 16px);
+        font-family: var(--font-family-secondary, sans-serif);
+        line-height: var(--line-height-body, 1.6);
+        max-width: 650px;
+        margin-inline: auto;
+      }
+
+      .image-wrapper {
+        position: relative;
+        width: 100%;
+        margin-top: var(--space-2xl, 32px);
+
+        .hero-img {
+          width: 100%;
+          height: auto;
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+          border-radius: var(--radius-lg, 24px);
+          display: block;
+        }
+
+        .case-details {
+          background-color: var(--color-ui-primary, #181818);
+          color: var(--color-surface-primary, #ffffff);
+          border-radius: var(--radius-md, 20px);
+          padding: 24px 36px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: center;
+          width: 90%;
+          margin: -50px auto 0;
+          position: relative;
+          z-index: 2;
+          box-sizing: border-box;
+
+          @media (min-width: 768px) {
+            flex-direction: row;
+            justify-content: space-between;
+            width: 85%;
+          }
+
+          dl {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+
+            @media (min-width: 600px) {
+              flex-direction: row;
+              justify-content: space-around;
+            }
+
+            div {
+              display: flex;
+              flex-direction: column;
+              gap: 4px;
+              text-align: left;
+
+              dt {
+                color: var(--color-text-weak, #a0a0a0);
+                font-size: 13px;
+                font-family: var(--font-family-secondary, sans-serif);
+              }
+
+              dd {
+                color: var(--color-surface-primary, #ffffff);
+                font-size: 15px;
+                font-family: var(--font-family-secondary, sans-serif);
+                font-weight: 600;
+                margin: 0;
+              }
+            }
+          }
+
+          .button {
+            background-color: var(--color-action, #ffcc4a);
+            color: var(--color-ui-primary, #181818);
+            border-radius: var(--radius-pill, 9999px);
+            padding: 12px 28px;
+            font-size: 15px;
+            font-family: var(--font-family-secondary, sans-serif);
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    /* Benspænd: --flow-space vertikal rytme */
+    .flow {
+      --flow-space: 20px;
+
+      > * + * {
+        margin-top: var(--flow-space);
+      }
+    }
+
+    .case-story-content {
+      width: 100%;
+      max-width: 760px;
+      margin-inline: auto;
+
+      h2 {
+        --flow-space: 48px;
+        font-size: 32px;
+        font-family: var(--font-family-primary, serif);
+        line-height: var(--line-height-heading, 1.2);
+        font-weight: 700;
+        color: var(--color-text, #181818);
+      }
+
+      h3 {
+        --flow-space: 36px;
+        font-size: 24px;
+        font-family: var(--font-family-primary, serif);
+        line-height: var(--line-height-heading, 1.3);
+        font-weight: 700;
+        color: var(--color-text, #181818);
+      }
+
+      p {
+        font-size: 16px;
+        font-family: var(--font-family-secondary, sans-serif);
+        line-height: var(--line-height-body, 1.7);
+        color: var(--color-text-muted, #595566);
+      }
+
+      .highlights {
+        --flow-space: 24px;
+        list-style: none;
+        padding: 0;
+
+        li {
+          position: relative;
+          padding-left: 24px;
+          margin-bottom: 12px;
+          color: var(--color-text-muted, #595566);
+          font-size: 16px;
+          font-family: var(--font-family-secondary, sans-serif);
+          line-height: 1.6;
+
+          &::before {
+            content: "•";
+            color: var(--color-action, #ffcc4a);
+            font-size: 24px;
+            position: absolute;
+            left: 6px;
+            top: -4px;
+          }
+        }
+      }
+
+      .section-figure {
+        --flow-space: 48px;
+        margin-inline: 0;
+
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: var(--radius-lg, 20px);
+          display: block;
+        }
+
+        figcaption {
+          font-size: 13px;
+          color: var(--color-text-weak, #888888);
+          margin-top: 8px;
+          text-align: center;
+        }
+      }
+    }
+  }
+</style>
