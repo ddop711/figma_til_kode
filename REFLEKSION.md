@@ -44,8 +44,7 @@ Vi bruger Popover API i src/components/Header.astro til login-boksen. Det smarte
 
 ### Relevant kode
 
-astro
-
+```
 <!-- src/components/Header.astro -->
 <button class="login-btn" popovertarget="login-popover" type="button">
   Login
@@ -68,6 +67,7 @@ flex-direction: column;
 gap: var(--space-md);
 }
 }
+```
 
 ### Afprøvning og ændringer
 
@@ -122,6 +122,7 @@ Vi bruger det i src/layouts/Layout.astro til sidens overordnede layout-grid. Det
 
 ### Relevant kode
 
+```
 /_ src/layouts/Layout.astro _/
 .page-grid {
 display: grid;
@@ -140,6 +141,7 @@ grid-template-columns: subgrid;
 .page-grid > :global(section > \*) {
 grid-column: content;
 }
+```
 
 ### Afprøvning og ændringer
 
