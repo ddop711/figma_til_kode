@@ -37,8 +37,12 @@ const { title = "" } = Astro.props;
     padding: 0;
   }
 
+  :global(html) {
+    /* overflow-x: clip forhindrer vandret scroll uden at ødelægge scroll-timeline */
+    overflow-x: clip;
+  }
+
   :global(body) {
-    overflow-x: hidden;
     width: 100%;
     background-color: var(--color-surface-primary);
     font-family: var(--font-family-secondary);
@@ -72,12 +76,12 @@ const { title = "" } = Astro.props;
   }
 
   @keyframes fade-in-up {
-    0% {
+    from {
       opacity: 0;
-      transform: translateY(80px);
+      transform: translateY(60px);
       filter: blur(4px);
     }
-    100% {
+    to {
       opacity: 1;
       transform: translateY(0);
       filter: blur(0px);
@@ -85,10 +89,14 @@ const { title = "" } = Astro.props;
   }
 
   @supports (animation-timeline: view()) {
-    .page-grid > :global(section:not(.hero-container) > *) {
-      animation: fade-in-up cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-timeline: view();
-      animation-range: entry 25% cover 40%;
+    @media (prefers-reduced-motion: no-preference) {
+      .page-grid > :global(section:not(.hero-container) > *) {
+        animation-name: fade-in-up;
+        animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 15% cover 35%;
+      }
     }
   }
 </style>
