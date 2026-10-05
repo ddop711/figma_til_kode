@@ -1,9 +1,5 @@
----
-
----
-
-<footer>
-  <div class="container">
+<footer class="site-footer">
+  <div class="footer-inner">
     <div class="logo">
       <a href="/">Ask<span>Experts</span></a>
     </div>
@@ -15,54 +11,71 @@
 </footer>
 
 <style>
-  footer {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
-    background-color: var(--color-ui-primary);
-    padding-block: var(--space-2xl);
-    border-top: 1px solid rgba(234, 237, 241, 0.1);
+  .site-footer {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    display: block !important;
+    background-color: var(--color-ui-primary, #090d16);
+    padding-block: 2rem;
+    padding-inline: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+
+    @media (min-width: 900px) {
+      padding-inline: 2rem;
+    }
   }
 
-  .container {
-    grid-column: 2;
+  .footer-inner {
+    grid-column: auto !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-md);
+    gap: 1.5rem;
     text-align: center;
+
+    @media (min-width: 900px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
   }
 
   .logo a {
-    color: var(--color-surface-primary);
+    color: #ffffff;
     text-decoration: none;
-    font-size: var(--font-size-lg);
-    font-weight: bold;
-  }
-  .logo span {
-    color: var(--color-action);
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-family-primary);
+
+    span {
+      color: var(--color-action, #f8c146);
+    }
   }
 
   .copyright,
   .links {
-    color: var(--color-surface-tertiary);
-    font-size: var(--font-size-sm);
+    color: #9ca3af;
+    font-size: 0.9rem;
+    font-family: var(--font-family-secondary);
     margin: 0;
   }
 
   .links a {
-    color: var(--color-surface-tertiary);
+    color: #9ca3af;
     text-decoration: none;
-  }
-  .links a:hover {
-    color: var(--color-action);
-  }
+    transition: color 0.2s ease;
 
-  @media (min-width: 900px) {
-    .container {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
+    &:hover {
+      color: var(--color-action, #f8c146);
     }
   }
 </style>
