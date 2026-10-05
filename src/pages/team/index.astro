@@ -1,7 +1,152 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import TeamCard from "../../components/TeamCard.astro";
+
+const response = await fetch("https://ftk-api.pages.dev/team");
+const team = await response.json();
 ---
 
 <Layout>
-  <h1>Her skal TEAM-siden være</h1>
+  <section class="team-hero">
+    <div class="hero-content">
+      <span class="label">TEAM</span>
+
+      <h1>The Consultants</h1>
+
+      <div class="yellow-line"></div>
+
+      <p>
+        Our success stems from the synergy between dedicated teams and our
+        valued clients. We prioritize a company culture that fosters exceptional
+        productivity and customer satisfaction.
+      </p>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <div class="team-heading">
+      <div>
+        <h2>Meet Our Great Team</h2>
+
+        <p>
+          Welcome to our amazing team! We are a group of passionate individuals
+          dedicated to excellence and innovation.
+        </p>
+      </div>
+
+      <a href="#" class="button">Join our team</a>
+    </div>
+
+    <div class="team-grid">
+      {team.map((employee) => <TeamCard employee={employee} />)}
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .team-hero {
+    background: var(--color-surface-secondary);
+    text-align: center;
+  }
+
+  .hero-content {
+    padding-block: var(--space-3xl);
+  }
+
+  .label {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.13em;
+  }
+
+  .team-hero h1 {
+    margin-top: var(--space-xs);
+
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+  }
+
+  .yellow-line {
+    width: 100%;
+    height: 3px;
+    margin-top: var(--space-md);
+
+    background: var(--color-action);
+  }
+
+  .team-hero p {
+    max-width: 520px;
+    margin: var(--space-md) auto 0;
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .team-section {
+    padding-block: var(--space-3xl) var(--space-5xl);
+  }
+
+  .team-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-2xl);
+
+    margin-bottom: var(--space-2xl);
+  }
+
+  .team-heading h2 {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+  }
+
+  .team-heading p {
+    max-width: 520px;
+    margin-top: var(--space-xs);
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .button {
+    flex-shrink: 0;
+
+    padding: var(--space-sm) var(--space-lg);
+
+    border-radius: var(--radius-pill);
+
+    background: var(--color-ui-primary);
+    color: var(--color-on-ui-primary);
+
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3xl) var(--space-xl);
+  }
+
+  @media (max-width: 650px) {
+    .team-heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 450px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
