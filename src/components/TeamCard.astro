@@ -1,4 +1,7 @@
 ---
+import FacebookIcon from "@icons/facebook.svg";
+import InstagramIcon from "@icons/instagram.svg";
+
 const { employee } = Astro.props;
 ---
 
@@ -22,7 +25,13 @@ const { employee } = Astro.props;
       <div class="team-socials">
         {employee.social_links.map((social) => (
           <a href={social.url} aria-label={social.platform}>
-            {social.platform}
+            {social.platform === "instagram" && (
+              <InstagramIcon width={20} height={20} />
+            )}
+
+            {social.platform === "facebook" && (
+              <FacebookIcon width={20} height={20} />
+            )}
           </a>
         ))}
       </div>
@@ -37,22 +46,29 @@ const { employee } = Astro.props;
 
   .team-link {
     display: block;
+
     color: var(--color-text);
     text-decoration: none;
   }
 
   .team-image {
     position: relative;
+
     aspect-ratio: 1;
+
     overflow: hidden;
+
     border-radius: var(--radius-sm);
+
     background: var(--color-surface-tertiary);
   }
 
   .team-image img {
     display: block;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
   }
 
@@ -96,8 +112,16 @@ const { employee } = Astro.props;
   }
 
   .team-socials a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     color: var(--color-text);
-    font-size: var(--font-size-sm);
     text-decoration: none;
+  }
+
+  .team-socials svg {
+    width: 30px;
+    height: 30px;
   }
 </style>
