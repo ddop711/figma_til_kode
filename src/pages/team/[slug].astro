@@ -2,7 +2,6 @@
 import { getTeamMembers } from "@lib/api";
 import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
-
 import FacebookIcon from "@icons/facebook.svg";
 import InstagramIcon from "@icons/instagram.svg";
 
@@ -37,15 +36,10 @@ const { employee } = Astro.props;
         {
           employee.social_links?.length > 0 && (
             <div class="socials">
-              {employee.social_links?.map((social) => (
+              {employee.social_links.map((social) => (
                 <a href={social.url} aria-label={social.platform}>
-                  {social.platform === "instagram" && (
-                    <InstagramIcon width={20} height={20} />
-                  )}
-
-                  {social.platform === "facebook" && (
-                    <FacebookIcon width={20} height={20} />
-                  )}
+                  {social.platform === "instagram" && <InstagramIcon />}
+                  {social.platform === "facebook" && <FacebookIcon />}
                 </a>
               ))}
             </div>
@@ -79,14 +73,10 @@ const { employee } = Astro.props;
     display: inline-flex;
     width: fit-content;
     align-items: center;
-
     padding: var(--space-xs) var(--space-md);
-
     border-radius: var(--radius-pill);
-
     background: var(--color-ui-primary);
     color: var(--color-on-ui-primary);
-
     font-size: var(--font-size-sm);
     text-decoration: none;
   }
@@ -95,7 +85,6 @@ const { employee } = Astro.props;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-5xl);
-
     max-width: 850px;
     margin: var(--space-3xl) auto 0;
   }
@@ -108,10 +97,8 @@ const { employee } = Astro.props;
     position: absolute;
     top: calc(var(--space-md) * -1);
     left: calc(var(--space-md) * -1);
-
     width: var(--space-6xl);
     height: var(--space-6xl);
-
     border-radius: var(--radius-sm);
     background: var(--color-ui-secondary);
   }
@@ -119,11 +106,9 @@ const { employee } = Astro.props;
   .member-image {
     position: relative;
     z-index: 1;
-
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
-
     border-radius: var(--radius-sm);
   }
 
@@ -136,9 +121,6 @@ const { employee } = Astro.props;
 
   .socials a {
     display: flex;
-    align-items: center;
-    justify-content: center;
-
     color: var(--color-text);
     text-decoration: none;
   }
@@ -158,13 +140,11 @@ const { employee } = Astro.props;
   .member-title {
     display: block;
     margin-top: var(--space-xs);
-
     font-size: var(--font-size-sm);
   }
 
   .member-content p {
     margin-top: var(--space-lg);
-
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-body);
@@ -172,7 +152,6 @@ const { employee } = Astro.props;
 
   .member-content hr {
     margin-block: var(--space-lg);
-
     border: 0;
     border-top: 1px solid var(--color-neutrals-200);
   }
