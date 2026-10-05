@@ -1,19 +1,46 @@
 ---
-const { text, href, color = "var(--color-ui-primary)" } = Astro.props;
+const {
+  text,
+  href,
+  color = "var(--color-ui-primary)",
+  textColor = "var(--color-on-ui-primary)",
+  popovertarget,
+  type = "button",
+} = Astro.props;
 ---
 
-<a href={href} class="button" style={`background: ${color}`}>
-  {text}
-</a>
+{
+  href ? (
+    <a
+      href={href}
+      class="button"
+      style={`background: ${color}; color: ${textColor}`}
+    >
+      {text}
+    </a>
+  ) : (
+    <button
+      type={type}
+      popovertarget={popovertarget}
+      class="button"
+      style={`background: ${color}; color: ${textColor}`}
+    >
+      {text}
+    </button>
+  )
+}
 
 <style>
   .button {
     display: inline-flex;
     width: fit-content;
-    padding: var(--space-xs) var(--space-md);
+    padding: var(--space-xs) var(--space-lg);
+    border: none;
     border-radius: var(--radius-pill);
-    color: var(--color-on-ui-primary);
+    font-family: var(--font-family-secondary, sans-serif);
     font-size: var(--font-size-sm);
+    font-weight: 600;
     text-decoration: none;
+    cursor: pointer;
   }
 </style>
