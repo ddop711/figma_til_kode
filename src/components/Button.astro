@@ -1,0 +1,19 @@
+---
+const { text, href, color = "var(--color-ui-primary)" } = Astro.props;
+---
+
+<a href={href} class="button" style={`background: ${color}`}>
+  {text}
+</a>
+
+<style>
+  .button {
+    display: inline-flex;
+    width: fit-content;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-pill);
+    color: var(--color-on-ui-primary);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+  }
+</style>

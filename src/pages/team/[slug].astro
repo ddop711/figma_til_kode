@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
 import FacebookIcon from "@icons/facebook.svg";
 import InstagramIcon from "@icons/instagram.svg";
+import Button from "../../components/Button.astro";
 
 export async function getStaticPaths() {
   const team = await getTeamMembers();
@@ -19,7 +20,7 @@ const { employee } = Astro.props;
 
 <Layout>
   <section class="member-page">
-    <a href="/team" class="back-button">← Back to team</a>
+    <Button text="← Back to team" href="/team" />
 
     <div class="member-layout">
       <div class="member-image-column">
