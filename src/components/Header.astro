@@ -1,5 +1,6 @@
 ---
 // src/components/Header.astro
+import Button from "../components/Button.astro";
 ---
 
 <header class="header">
@@ -14,9 +15,12 @@
     </nav>
 
     <!-- Trigger med Popover API -->
-    <button class="login-btn" popovertarget="login-popover" type="button">
-      Login
-    </button>
+    <Button
+      text="Login"
+      color="var(--color-surface-primary)"
+      popovertarget="login-popover"
+      textColor="var(--color-neutrals-900)"
+    />
 
     <!-- Popover panel -->
     <div id="login-popover" popover>
