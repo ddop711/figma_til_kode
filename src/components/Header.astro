@@ -110,6 +110,7 @@
     }
   }
 
+  /* Popover container */
   #login-popover {
     border: 1px solid var(--color-neutrals-700, #333333);
     background-color: var(--color-ui-primary, #1e1e1e);
@@ -125,12 +126,6 @@
     bottom: auto;
     left: auto;
     margin: 0;
-
-    &::backdrop {
-      background-color: rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
 
     .popover-content {
       display: flex;
@@ -193,5 +188,11 @@
         }
       }
     }
+  }
+
+  #login-popover::backdrop {
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 </style>
