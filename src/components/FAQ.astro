@@ -1,0 +1,121 @@
+---
+const response = await fetch("https://ftk-api.pages.dev/faq");
+const faq = await response.json();
+---
+
+<section class="faq-section">
+  <div class="faq-box">
+    <span class="section-label">FAQ</span>
+
+    <h2>Customer Questions</h2>
+
+    <div class="faq-list">
+      {
+        faq.map((item) => (
+          <details>
+            <summary>
+              {item.question}
+              <span>+</span>
+            </summary>
+
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding-block: var(--space-5xl);
+  }
+
+  .faq-box {
+    width: 100%;
+    max-width: 700px;
+    margin-inline: auto;
+    padding: var(--space-5xl);
+
+    box-sizing: border-box;
+
+    border-radius: var(--radius-md);
+
+    background: var(--color-surface-secondary);
+  }
+
+  .section-label {
+    display: block;
+
+    color: var(--color-text-muted);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    letter-spacing: 0.13em;
+
+    text-align: center;
+  }
+
+  .faq-box h2 {
+    margin-top: var(--space-xs);
+
+    color: var(--color-text);
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+
+    text-align: center;
+  }
+
+  .faq-list {
+    min-width: 0;
+    margin-top: var(--space-2xl);
+  }
+
+  .faq-list details {
+    border-bottom: 1px solid var(--color-neutrals-200);
+  }
+
+  .faq-list summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+    min-width: 0;
+
+    padding-block: var(--space-md);
+
+    cursor: pointer;
+
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+
+    list-style: none;
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list summary span {
+    flex-shrink: 0;
+
+    font-size: var(--font-size-md);
+  }
+
+  .faq-list details p {
+    padding-bottom: var(--space-md);
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-body);
+    white-space: pre-line;
+  }
+
+  @media (max-width: 600px) {
+    .faq-box {
+      padding: var(--space-2xl) var(--space-lg);
+    }
+  }
+</style>

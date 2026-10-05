@@ -1,5 +1,4 @@
 ---
-//@ts-nocheck
 import { getTeamMembers } from "@lib/api";
 import { Image } from "astro:assets";
 import Layout from "@layouts/Layout.astro";
@@ -17,14 +16,164 @@ const { employee } = Astro.props;
 ---
 
 <Layout>
-  <Image
-    src={employee.image.src}
-    alt={employee.image.alt}
-    width={employee.image.width}
-    height={employee.image.height}
-  />
-  <h2>{employee.name}</h2>
-  <p>{employee.description_long}</p>
-  <h3>Past Experience</h3>
-  <p>{employee.past_experience}</p>
+  <section class="member-page">
+    <a href="/team" class="back-button">← Back to team</a>
+
+    <div class="member-layout">
+      <div class="member-image-column">
+        <div class="green-shape"></div>
+
+        <Image
+          src={employee.image.src}
+          alt={employee.image.alt}
+          width={employee.image.width}
+          height={employee.image.height}
+          class="member-image"
+        />
+
+        {
+          employee.social_links?.length > 0 && (
+            <div class="socials">
+              {employee.social_links.map((social) => (
+                <a href={social.url} aria-label={social.platform}>
+                  {social.platform}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="member-content">
+        <h1>{employee.name}</h1>
+
+        <span class="member-title">{employee.title}</span>
+
+        <p>{employee.description_long}</p>
+
+        <hr />
+
+        <h2>Past experience</h2>
+
+        <p>{employee.past_experience}</p>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .member-page {
+    padding-block: var(--space-xl) var(--space-5xl);
+  }
+
+  .back-button {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+
+    padding: var(--space-xs) var(--space-md);
+
+    border-radius: var(--radius-pill);
+
+    background: var(--color-ui-primary);
+    color: var(--color-on-ui-primary);
+
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+  }
+
+  .member-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5xl);
+
+    max-width: 850px;
+    margin: var(--space-3xl) auto 0;
+  }
+
+  .member-image-column {
+    position: relative;
+  }
+
+  .green-shape {
+    position: absolute;
+    top: calc(var(--space-md) * -1);
+    left: calc(var(--space-md) * -1);
+
+    width: var(--space-6xl);
+    height: var(--space-6xl);
+
+    border-radius: var(--radius-sm);
+    background: var(--color-ui-secondary);
+  }
+
+  .member-image {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+
+    border-radius: var(--radius-sm);
+  }
+
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+
+    margin-top: var(--space-sm);
+  }
+
+  .socials a {
+    color: var(--color-text);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+  }
+
+  .member-content h1 {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    line-height: var(--line-height-heading);
+  }
+
+  .member-title {
+    display: block;
+    margin-top: var(--space-xs);
+
+    font-size: var(--font-size-sm);
+  }
+
+  .member-content p {
+    margin-top: var(--space-lg);
+
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-body);
+  }
+
+  .member-content hr {
+    margin-block: var(--space-lg);
+
+    border: 0;
+    border-top: 1px solid var(--color-neutrals-200);
+  }
+
+  .member-content h2 {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+  }
+
+  @media (max-width: 700px) {
+    .member-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .member-image-column {
+      max-width: 500px;
+    }
+  }
+</style>
