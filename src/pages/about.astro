@@ -9,6 +9,8 @@ const team = await response.json();
 
 const sarah = team.find((employee) => employee.slug === "sarah-jasmine");
 const john = team.find((employee) => employee.slug === "john-carter");
+
+import storyboard from "../data/images/storyboard.webp";
 ---
 
 <Layout title="About Us">
@@ -62,10 +64,7 @@ const john = team.find((employee) => employee.slug === "john-carter");
       <div class="vision-image">
         <div class="green-shape"></div>
 
-        <img
-          src="/data/images/storyboard.webp"
-          alt="Team members working together"
-        />
+        <img src={storyboard.src} alt="Team members working together" />
       </div>
     </div>
 
