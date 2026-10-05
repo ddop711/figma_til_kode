@@ -41,122 +41,140 @@ const pathname = Astro.url.pathname;
 </header>
 
 <style>
-  @layer components {
-    .site-header {
-      background-color: var(--color-ui-primary);
-      padding-block: var(--space-xl);
-      padding-inline: var(--space-lg);
+  .site-header {
+    background-color: var(--color-ui-primary, #090d16);
+    padding-block: 1.5rem;
+    padding-inline: var(--space-md, 1.5rem);
+    width: 100%;
+    box-sizing: border-box;
+
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
       width: 100%;
-      box-sizing: border-box;
+      max-width: 1200px;
+      margin-inline: auto;
 
-      .header-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: var(--space-xl);
+      .logo a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1.75rem;
+        font-family: var(--font-family-primary);
+        font-weight: 700;
+        display: inline-block;
+        letter-spacing: -0.5px;
+
+        span {
+          color: var(--color-action, #f8c146);
+        }
+      }
+
+      nav {
         width: 100%;
-        max-width: 1200px;
-        margin-inline: auto;
 
-        .logo a {
-          color: var(--color-surface-primary);
-          text-decoration: none;
-          font-size: var(--font-size-lg);
-          font-family: var(--font-family-primary);
-          font-weight: 700;
-          display: inline-block;
-
-          span {
-            color: var(--color-action);
-          }
-        }
-
-        nav {
-          width: 100%;
-
-          ul {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-md);
-            list-style: none;
-            padding: 0;
-            margin: 0;
-
-            li {
-              width: 100%;
-
-              a {
-                color: var(--color-surface-primary);
-                text-decoration: none;
-                font-family: var(--font-family-secondary);
-                font-size: var(--font-size-base);
-                display: inline-block;
-                padding-block: var(--space-xs);
-                border-bottom: 2px solid transparent;
-
-                &.active {
-                  border-bottom-color: var(--color-action);
-                }
-              }
-            }
-          }
-        }
-
-        .action {
-          width: 100%;
+        ul {
           display: flex;
-          justify-content: center;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+          list-style: none;
+          padding: 0;
+          margin: 0;
 
-          .login-btn {
-            background-color: var(--color-surface-primary);
-            color: var(--color-ui-primary);
-            border: none;
-            border-radius: var(--radius-pill);
-            padding-block: var(--space-xs);
-            padding-inline: var(--space-2xl);
-            font-family: var(--font-family-secondary);
-            font-size: var(--font-size-base);
-            font-weight: 700;
-            cursor: pointer;
-          }
-        }
+          li {
+            display: inline-flex;
+            align-items: center;
 
-        @media (min-width: 900px) {
-          flex-direction: row;
-          justify-content: space-between;
-          text-align: left;
-          gap: var(--space-xl);
+            a {
+              color: #ffffff;
+              text-decoration: none;
+              font-family: var(--font-family-secondary);
+              font-size: 1rem;
+              font-weight: 500;
+              padding-bottom: 0.35rem;
+              border-bottom: 2.5px solid transparent;
+              transition:
+                border-color 0.2s ease,
+                color 0.2s ease;
 
-          nav {
-            width: auto;
+              &.active {
+                border-bottom-color: var(--color-action, #f8c146);
+              }
 
-            ul {
-              flex-direction: row;
-              gap: var(--space-2xl);
-
-              li {
-                width: auto;
+              &:hover {
+                color: var(--color-action, #f8c146);
               }
             }
           }
+        }
+      }
 
-          .action {
-            width: auto;
+      .action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-            .login-btn {
-              padding-block: var(--space-sm);
-              padding-inline: var(--space-xl);
-            }
+        .login-btn {
+          background-color: #ffffff;
+          color: #090d16;
+          border: none;
+          border-radius: 9999px;
+
+          padding: 0.75rem 2.25rem !important;
+          font-family: var(--font-family-secondary);
+          font-size: 0.95rem;
+          font-weight: 600;
+          line-height: 1 !important;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          white-space: nowrap;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          transition:
+            transform 0.15s ease,
+            opacity 0.15s ease;
+
+          &:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+          }
+
+          &:active {
+            transform: translateY(0);
           }
         }
       }
 
       @media (min-width: 900px) {
-        padding-block: var(--space-lg);
-        padding-inline: var(--space-2xl);
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        gap: 2rem;
+
+        nav {
+          width: auto;
+
+          ul {
+            flex-direction: row;
+            gap: 2.5rem;
+            align-items: center;
+          }
+        }
+
+        .action {
+          width: auto;
+        }
       }
+    }
+
+    @media (min-width: 900px) {
+      padding-block: 1.75rem;
+      padding-inline: var(--space-2xl, 2rem);
     }
   }
 </style>

@@ -46,148 +46,141 @@ import Checkmark from "@icons/checkmark.svg";
 </section>
 
 <style>
-  @layer components {
-    .expect {
-      background-color: var(--color-surface-primary);
-      color: var(--color-text);
-      padding-block: var(--space-4xl);
-      padding-inline: var(--space-md);
+  .expect {
+    background-color: var(--color-surface-primary);
+    color: var(--color-text);
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: var(--space-5xl);
+    padding-bottom: var(--space-5xl);
+    padding-inline: var(--space-md);
 
-      /* DESKTOP: */
+    @media (min-width: 900px) {
+      padding-top: var(--space-6xl);
+      padding-bottom: var(--space-6xl);
+      padding-inline: var(--space-2xl);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3xl);
+
       @media (min-width: 900px) {
-        padding-top: 160px;
-        padding-bottom: var(--space-6xl);
-        padding-inline: var(--space-2xl);
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-5xl);
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-3xl);
+      .media {
+        position: relative;
+        width: 100%;
+        max-width: 480px;
+        margin-inline: auto;
 
         @media (min-width: 900px) {
-          flex-direction: row;
-          align-items: center;
-          gap: var(--space-4xl);
+          flex: 1;
+          margin: 0;
         }
 
-        .media {
-          position: relative;
-          width: 100%;
-          max-width: 480px;
-          margin: 0 auto;
+        .box {
+          position: absolute;
+          top: calc(-1 * var(--space-md));
+          left: calc(-1 * var(--space-md));
+          width: 100px;
+          height: 100px;
+          background-color: var(--color-ui-secondary);
+          border-radius: var(--radius-md);
+          z-index: 1;
 
           @media (min-width: 900px) {
-            flex: 1;
-            margin: 0;
-          }
-
-          .box {
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            width: 100px;
-            height: 100px;
-            background-color: var(--color-ui-secondary);
-            border-radius: var(--radius-md);
-            z-index: 1;
-
-            @media (min-width: 900px) {
-              top: -20px;
-              left: -20px;
-              width: 140px;
-              height: 140px;
-            }
-          }
-
-          img {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: auto;
-            border-radius: var(--radius-md);
-            object-fit: cover;
-            display: block;
+            top: calc(-1 * var(--space-lg));
+            left: calc(-1 * var(--space-lg));
+            width: 140px;
+            height: 140px;
           }
         }
 
-        .text {
+        img {
+          position: relative;
+          z-index: 2;
           width: 100%;
+          height: auto;
+          border-radius: var(--radius-md);
+          object-fit: cover;
+          display: block;
+        }
+      }
+
+      .text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 900px) {
+          flex: 1;
+        }
+
+        .tag {
+          color: var(--color-ui-primary);
+          font-size: var(--font-size-sm);
+          font-family: var(--font-family-secondary);
+          letter-spacing: 2px;
+          font-weight: 700;
+          text-transform: uppercase;
+          margin-bottom: var(--space-xs);
+        }
+
+        h2 {
+          font-size: var(--font-size-xl);
+          font-family: var(--font-family-primary);
+          font-weight: 700;
+          line-height: var(--line-height-heading);
+          margin-block: 0 var(--space-md);
+          color: var(--color-text);
+
+          @media (min-width: 900px) {
+            font-size: var(--font-size-2xl);
+          }
+        }
+
+        .desc {
+          color: var(--color-text-muted);
+          font-size: var(--font-size-base);
+          font-family: var(--font-family-secondary);
+          line-height: var(--line-height-body);
+          margin-block: 0 var(--space-xl);
+        }
+
+        .list {
           display: flex;
           flex-direction: column;
+          gap: var(--space-lg);
+          list-style: none;
+          padding: 0;
+          margin: 0;
 
-          @media (min-width: 900px) {
-            flex: 1;
-          }
-
-          .tag {
-            color: var(--color-ui-primary);
-            font-size: var(--font-size-sm);
-            font-family: var(--font-family-secondary);
-            letter-spacing: 2px;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: var(--space-sm);
-          }
-
-          h2 {
-            font-size: var(--font-size-xl);
-            font-family: var(--font-family-primary);
-            font-weight: 700;
-            line-height: var(--line-height-heading);
-            margin: 0 0 var(--space-md) 0;
-
-            @media (min-width: 900px) {
-              font-size: var(--font-size-2xl);
-            }
-          }
-
-          .desc {
-            color: var(--color-text-muted);
-            font-size: var(--font-size-base);
-            font-family: var(--font-family-secondary);
-            line-height: var(--line-height-body);
-            margin: 0 0 var(--space-xl) 0;
-
-            @media (min-width: 900px) {
-              margin-bottom: var(--space-2xl);
-            }
-          }
-
-          .list {
+          li {
             display: flex;
-            flex-direction: column;
             gap: var(--space-md);
-            list-style: none;
-            padding: 0;
-            margin: 0;
+            align-items: flex-start;
 
-            @media (min-width: 900px) {
-              gap: var(--space-lg);
+            .icon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              margin-top: 2px;
             }
 
-            li {
-              display: flex;
-              gap: var(--space-md);
-              align-items: flex-start;
-
-              .icon {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-                margin-top: 2px;
-              }
-
-              p {
-                color: var(--color-text);
-                font-size: var(--font-size-base);
-                font-family: var(--font-family-secondary);
-                line-height: var(--line-height-body);
-                margin: 0;
-              }
+            p {
+              color: var(--color-text);
+              font-size: var(--font-size-base);
+              font-family: var(--font-family-secondary);
+              line-height: var(--line-height-body);
+              margin: 0;
             }
           }
         }

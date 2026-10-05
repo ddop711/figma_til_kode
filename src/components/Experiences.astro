@@ -13,21 +13,21 @@ const data = await response.json();
 
     <div class="stats">
       <div class="stat-item">
-        <div class="circle dot-1">
+        <div class="circle dot-85">
           <span class="value">{data.stats[0].value}%</span>
         </div>
         <p class="label">{data.stats[0].label}</p>
       </div>
 
       <div class="stat-item">
-        <div class="circle dot-2">
+        <div class="circle dot-95">
           <span class="value">{data.stats[1].value}%</span>
         </div>
         <p class="label">{data.stats[1].label}</p>
       </div>
 
       <div class="stat-item">
-        <div class="circle dot-3">
+        <div class="circle dot-90">
           <span class="value">{data.stats[2].value}%</span>
         </div>
         <p class="label">{data.stats[2].label}</p>
@@ -38,18 +38,24 @@ const data = await response.json();
 
 <style>
   .experience {
-    background-color: var(--color-action, #ffcc4a);
-    color: var(--color-ui-primary, #181818);
-    padding: var(--space-6xl, 128px) var(--space-md, 16px);
+    background-color: var(--color-action);
+    color: var(--color-ui-primary);
+    padding-block: var(--space-5xl);
+    padding-inline: var(--space-md);
     width: 100%;
-    overflow: hidden;
+    box-sizing: border-box;
+
+    @media (min-width: 1024px) {
+      padding-block: var(--space-6xl);
+      padding-inline: var(--space-2xl);
+    }
 
     .container {
       max-width: 1200px;
-      margin: 0 auto;
+      margin-inline: auto;
       display: flex;
       flex-direction: column;
-      gap: var(--space-4xl, 48px);
+      gap: var(--space-3xl);
 
       @media (min-width: 1024px) {
         flex-direction: row;
@@ -58,28 +64,30 @@ const data = await response.json();
       }
 
       .info {
-        max-width: 420px;
+        max-width: 440px;
 
         .eyebrow {
           display: block;
-          font-size: var(--font-size-sm, 14px);
+          font-size: var(--font-size-sm);
+          font-family: var(--font-family-secondary);
           font-weight: 700;
           letter-spacing: 2px;
           text-transform: uppercase;
-          margin-bottom: var(--space-xs, 8px);
+          margin-bottom: var(--space-xs);
         }
 
         .title {
-          font-size: var(--font-size-xl, 36px);
-          font-family: var(--font-family-primary, serif);
+          font-size: var(--font-size-xl);
+          font-family: var(--font-family-primary);
           font-weight: 700;
-          line-height: var(--line-height-heading, 1.2);
-          margin: 0 0 var(--space-sm, 16px) 0;
+          line-height: var(--line-height-heading);
+          margin-block: 0 var(--space-sm);
         }
 
         .desc {
-          font-size: var(--font-size-base, 16px);
-          line-height: var(--line-height-body, 1.6);
+          font-size: var(--font-size-base);
+          font-family: var(--font-family-secondary);
+          line-height: var(--line-height-body);
           margin: 0;
         }
       }
@@ -88,13 +96,13 @@ const data = await response.json();
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: var(--space-3xl, 32px);
+        gap: var(--space-2xl);
         width: 100%;
 
         @media (min-width: 600px) {
           flex-direction: row;
           justify-content: center;
-          flex-wrap: wrap;
+          gap: var(--space-3xl);
         }
 
         @media (min-width: 1024px) {
@@ -105,53 +113,58 @@ const data = await response.json();
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: var(--space-md, 16px);
+          gap: var(--space-md);
 
           .circle {
             position: relative;
-            width: 120px;
-            height: 120px;
-            border-radius: var(--radius-pill, 50%);
-            border: 3px solid var(--color-surface-primary, #ffffff);
-
+            width: 130px;
+            height: 130px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            border: 3.5px solid var(--color-surface-primary);
+            box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
 
             .value {
-              font-size: var(--font-size-xl, 32px);
-              font-family: var(--font-family-primary, serif);
+              font-size: var(--font-size-xl);
+              font-family: var(--font-family-primary);
               font-weight: 700;
             }
 
             &::after {
               content: "";
               position: absolute;
-              width: var(--space-md, 16px);
-              height: var(--space-md, 16px);
-              background-color: var(--color-ui-primary, #181818);
-              border: 2px solid var(--color-surface-primary, #ffffff);
-              border-radius: var(--radius-pill, 50%);
+              width: var(--space-md);
+              height: var(--space-md);
+              background-color: var(--color-ui-primary);
+              border: 2.5px solid var(--color-surface-primary);
+              border-radius: 50%;
+              box-sizing: border-box;
+              transform: translate(-50%, -50%);
             }
 
-            &.dot-1::after {
-              top: 12px;
-              left: 8px;
+            &.dot-85::after {
+              top: 20%;
+              left: 9%;
             }
-            &.dot-2::after {
-              top: -8px;
-              left: 48px;
+
+            &.dot-95::after {
+              top: 2%;
+              left: 35%;
             }
-            &.dot-3::after {
-              top: 12px;
-              right: 8px;
+
+            &.dot-90::after {
+              top: 9%;
+              left: 20%;
             }
           }
 
           .label {
+            font-family: var(--font-family-secondary);
             font-weight: 700;
-            font-size: var(--font-size-base, 16px);
-            line-height: var(--line-height-body, 1.6);
+            font-size: var(--font-size-base);
             margin: 0;
             text-align: center;
           }
