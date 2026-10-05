@@ -69,4 +69,25 @@ import Footer from "../components/Footer.astro";
   .page-grid > :global(section > *) {
     grid-column: content;
   }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(80px);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0px);
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    .page-grid > :global(section:not(.hero-container) > *) {
+      animation: fade-in-up cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 25% cover 40%;
+    }
+  }
 </style>
