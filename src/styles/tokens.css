@@ -45,24 +45,24 @@
   --space-6xl: 6.25rem; /* 100px */
 
   /* ==== Typography ==== */
-  /* Dine fonte fra Astro preload */
+ 
   --font-family-primary: var(--font-cabin, "Cabin", sans-serif);
   --font-family-secondary: var(--font-lato, "Lato", sans-serif);
 
   /* Font sizes */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px (standard tekst) */
-  --font-size-md: 1.2rem; /* ~19px */
-  --font-size-lg: 1.5rem; /* 24px */
-  --font-size-xl: 2.5rem; /* 40px (sektionsoverskrifter) */
-  --font-size-2xl: 3rem; /* 48px (Hero overskrift) */
+  --font-size-sm: 0.875rem; 
+  --font-size-base: 1rem; 
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.5rem;
+  --font-size-xl: 2.5rem; 
+  --font-size-2xl: 3rem;
 
   /* Line heights */
   --line-height-heading: 1.15;
   --line-height-body: 1.6;
 
-  /* ==== Border Radii ==== */
+  /* ==== Border Radius ==== */
   --radius-sm: 8px;
-  --radius-md: 20px; /* Bruges til kort og billeder */
-  --radius-pill: 50px; /* Bruges til knapper og input-felter */
+  --radius-md: 20px; 
+  --radius-pill: 50px; 
 }

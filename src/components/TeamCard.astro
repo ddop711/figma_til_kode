@@ -6,39 +6,52 @@ const { employee } = Astro.props;
 ---
 
 <article class="team-card">
-  <a href={`/team/${employee.slug}`} class="team-link">
-    <div class="team-image">
-      <img src={employee.image.src} alt={employee.image.alt} />
-      <span>{employee.title}</span>
-    </div>
-
-    <div class="team-info">
-      <h2>{employee.name}</h2>
-      <p>{employee.description}</p>
-    </div>
-  </a>
-
-  {
-    employee.social_links?.length > 0 && (
-      <div class="team-socials">
-        {employee.social_links.map((social) => (
-          <a href={social.url} aria-label={social.platform}>
-            {social.platform === "instagram" && <InstagramIcon />}
-            {social.platform === "facebook" && <FacebookIcon />}
-          </a>
-        ))}
+  <div class="team-card-inner">
+    <a href={`/team/${employee.slug}`} class="team-link">
+      <div class="team-image">
+        <img src={employee.image.src} alt={employee.image.alt} />
+        <span>{employee.title}</span>
       </div>
-    )
-  }
+
+      <div class="team-info">
+        <h2>{employee.name}</h2>
+        <p>{employee.description}</p>
+      </div>
+    </a>
+
+    {
+      employee.social_links?.length > 0 && (
+        <div class="team-socials">
+          {employee.social_links.map((social) => (
+            <a href={social.url} aria-label={social.platform}>
+              {social.platform === "instagram" && <InstagramIcon />}
+              {social.platform === "facebook" && <FacebookIcon />}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </article>
 
 <style>
   .team-card {
+    container-type: inline-size;
+    container-name: team-card;
     min-width: 0;
   }
 
+  .team-card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    height: 100%;
+  }
+
   .team-link {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
     color: var(--color-text);
     text-decoration: none;
   }
@@ -69,8 +82,11 @@ const { employee } = Astro.props;
     font-size: var(--font-size-sm);
   }
 
+  .team-info {
+    text-align: center;
+  }
+
   .team-info h2 {
-    margin-top: var(--space-sm);
     font-family: var(--font-family-primary);
     font-size: var(--font-size-md);
     font-weight: 600;
@@ -87,7 +103,7 @@ const { employee } = Astro.props;
     display: flex;
     justify-content: center;
     gap: var(--space-sm);
-    margin-top: var(--space-sm);
+    margin-top: auto;
   }
 
   .team-socials a {
@@ -99,5 +115,35 @@ const { employee } = Astro.props;
   .team-socials svg {
     width: 30px;
     height: 30px;
+  }
+
+  
+  @container team-card (min-width: 440px) {
+    .team-card-inner {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      grid-template-rows: 1fr auto;
+      column-gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .team-link {
+      display: contents;
+    }
+
+    .team-image {
+      grid-row: 1 / -1;
+    }
+
+    .team-info {
+      text-align: left;
+      align-self: end;
+    }
+
+    .team-socials {
+      justify-content: flex-start;
+      align-self: start;
+      margin-top: var(--space-xs);
+    }
   }
 </style>
