@@ -116,7 +116,7 @@ const data = await response.json();
     transition: var(--transition-duration) --animatedNumber ease;
   }
 
-  /* Fallback til browsere uden scroll-driven animations (f.eks. Firefox og ældre Safari) */
+  /* Fallback til browsere uden scroll-driven animations */
   @supports not (animation-timeline: view()) {
     [scroll-trigger] {
       --sentinel: 1;
