@@ -33,7 +33,7 @@ const data = await response.json();
   }
 
   @property --animatedNumber {
-    syntax: "<integer>";
+    syntax: "<number>";
     inherits: true;
     initial-value: 0;
   }
@@ -102,7 +102,7 @@ const data = await response.json();
     margin: 0;
   }
 
-  /* Scroll-trigger og overgang */
+  /* Scroll-trigger og overgang (præcis som din lærers kode) */
   [scroll-trigger] {
     --sentinel: 0;
     --transition-duration: 1s;
@@ -110,13 +110,13 @@ const data = await response.json();
     animation: switchTrigger linear both;
     animation-timeline: view();
     animation-range: entry 25% entry 50%;
-
-    .stat {
-      transition: var(--transition-duration) --animatedNumber ease;
-    }
   }
 
-  /* Fallback til browsere uden scroll-driven animations */
+  [scroll-trigger] .stat {
+    transition: var(--transition-duration) --animatedNumber ease;
+  }
+
+  /* Fallback til browsere uden scroll-driven animations (f.eks. Firefox og ældre Safari) */
   @supports not (animation-timeline: view()) {
     [scroll-trigger] {
       --sentinel: 1;
@@ -175,7 +175,7 @@ const data = await response.json();
         border-box;
 
     display: grid;
-    counter-reset: c var(--animatedNumber);
+    counter-reset: c calc(var(--actualPercent) / 1%);
   }
 
   .stat::before,
