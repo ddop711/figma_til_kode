@@ -18,6 +18,24 @@ const { title = "" } = Astro.props;
     <Font cssVariable="--font-lato" preload />
     <style is:inline>
       @layer reset, global, tokens, components, overrides;
+
+      @property --sentinel {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+
+      @property --animatedNumber {
+        syntax: "<number>";
+        inherits: true;
+        initial-value: 0;
+      }
+
+      @keyframes switchTrigger {
+        to {
+          --sentinel: 1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -38,7 +56,6 @@ const { title = "" } = Astro.props;
   }
 
   :global(html) {
-    /* overflow-x: clip forhindrer vandret scroll uden at ødelægge scroll-timeline */
     overflow-x: clip;
   }
 

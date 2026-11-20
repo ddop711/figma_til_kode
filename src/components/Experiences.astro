@@ -25,26 +25,6 @@ const data = await response.json();
   </div>
 </section>
 
-<style is:global is:inline>
-  @property --sentinel {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0;
-  }
-
-  @property --animatedNumber {
-    syntax: "<number>";
-    inherits: true;
-    initial-value: 0;
-  }
-
-  @keyframes switchTrigger {
-    to {
-      --sentinel: 1;
-    }
-  }
-</style>
-
 <style>
   .experience {
     background-color: var(--color-action);
@@ -102,10 +82,8 @@ const data = await response.json();
     margin: 0;
   }
 
-  /* Scroll-trigger og overgang (præcis som din lærers kode) */
   [scroll-trigger] {
     --sentinel: 0;
-    --transition-duration: 1s;
 
     animation: switchTrigger linear both;
     animation-timeline: view();
@@ -113,10 +91,9 @@ const data = await response.json();
   }
 
   [scroll-trigger] .stat {
-    transition: var(--transition-duration) --animatedNumber ease;
+    transition: --animatedNumber 1s ease;
   }
 
-  /* Fallback til browsere uden scroll-driven animations */
   @supports not (animation-timeline: view()) {
     [scroll-trigger] {
       --sentinel: 1;
@@ -175,7 +152,7 @@ const data = await response.json();
         border-box;
 
     display: grid;
-    counter-reset: c calc(var(--actualPercent) / 1%);
+    counter-reset: c round(nearest, var(--animatedNumber), 1);
   }
 
   .stat::before,
@@ -183,7 +160,6 @@ const data = await response.json();
     grid-area: 1 / 1;
   }
 
-  /* Procent-tallet i midten */
   .stat::after {
     content: counter(c) "%";
     place-self: center;
@@ -197,7 +173,6 @@ const data = await response.json();
     z-index: 2;
   }
 
-  /* Prikken der følger ringen */
   .stat::before {
     content: "";
     aspect-ratio: 1;
