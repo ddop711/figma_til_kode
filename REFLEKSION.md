@@ -2,123 +2,112 @@
 
 **Gruppemedlemmer:** Mikkel Ekhart Storm & Denzel Daniel Orbigo Padilla
 
-## Eksempel 1: Popover API og CSS-nesting
+## Eksempel 1: Popover API, CSS Anchor Positioning og CSS-nesting
 
 ### Hvor og hvorfor?
 
-Skriv jeres fælles refleksion direkte i denne fil. Erstat hjælpeteksterne med jeres egne erfaringer, og slet Markdown-guiden og demoen inden aflevering. Skriv kort og konkret, og brug eksempler fra jeres egen kode.
-
-Åbn forhåndsvisningen i VS Code med **Cmd + Shift + V** (Mac) eller **Ctrl + Shift + V** (Windows). Så ser I, hvordan Markdown bliver vist. På GitHub vises formateringen automatisk, når I åbner filen.
-
-### Mini-guide til Markdown
-
-- `# Titel` er dokumentets hovedoverskrift. Brug kun én.
-- `## Afsnit` og `### Underafsnit` giver overskrifter i flere niveauer.
-- `**vigtig tekst**` bliver til **vigtig tekst**.
-- En bindestreg efterfulgt af et mellemrum laver en punktopstilling som denne.
-- Skriv kode inde i en sætning mellem enkelte backticks, fx `getTeamMembers()`.
-- Links skrives sådan: `[Astros dokumentation](https://docs.astro.build/)`.
-- Lav et nyt afsnit med en tom linje. Brug også en tom linje før og efter lister og kodeblokke.
-
-Vi bruger Popover API i `src/components/Header.astro` til login-boksen. Det smarte er, at vi slipper for JavaScript til at åbne og lukke vinduet, fordi browseren selv lukker den, når man klikker ved siden af eller trykker ESC. Vi brugte samtidig CSS-nesting for at holde stylingen samlet inde i komponenten.
+Vi bruger HTML Popover API sammen med CSS Anchor Positioning i `src/components/Header.astro` til login-boksen. Med Popover API slipper vi for JavaScript til at åbne og lukke vinduet, fordi browseren selv håndterer top-layer, ESC-tast og klik udenfor. Med Anchor Positioning binder vi login-panelet direkte fast under login-knappen uden faste skærmkoordinater, og CSS-nesting holder hele komponentens styling samlet.
 
 ### Relevant kode
 
 ```astro
 <!-- src/components/Header.astro -->
-<button class="login-btn" popovertarget="login-popover" type="button">
-  Login
-</button>
+<div class="login-trigger">
+  <Button color="var(--color-surface-primary)" popovertarget="login-popover" text="Login" textColor="var(--color-neutrals-900)"/>
+</div>
 
 <div id="login-popover" popover>
   <div class="popover-content">
     <h3>Sign In</h3>
-    <form class="login-form">...</form>
+    <p>Enter your credentials.</p>
+    <form class="login-form" onsubmit="event.preventDefault()">...</form>
   </div>
 </div>
 ```
 
 ```css
+/* src/components/Header.astro */
+.login-trigger {
+  white-space: nowrap;
+  anchor-name: --login-anchor;
+}
+
 #login-popover {
   width: min(340px, 90vw);
-  background-color: var(--color-ui-primary);
+  position: fixed;
+  position-anchor: --login-anchor;
+  top: anchor(bottom);
+  right: anchor(right);
+  margin-top: 0.5rem;
 
   .popover-content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-md, 1rem);
   }
 }
+
+#login-popover::backdrop {
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+}
 ```
 
 ### Afprøvning og ændringer
 
-- **Vi testede:** Vi testede popoveren i Chrome på bærbar og i DevTools mobilview.
-- **Vi observerede:** Al styling forsvandt helt på siden, fordi vi havde nestet `&::backdrop` inde i `#login-popover`, hvilket fik browseren til at smide hele stilarket ud.
-- **Vi ændrede eller mangler:** Vi rykkede `#login-popover::backdrop` ud på sit eget rod-niveau i CSS'en, så stylingen slog igennem igen.
+- **Vi testede:** Vi testede popoveren og placeringen af login-boksen i Chrome på bærbar og i DevTools mobilview.
+- **Vi observerede:** Tidligere forsvandt al styling på headeren, fordi `&::backdrop` var nestet inde i `#login-popover`, hvilket fik CSS-parseren til at afvise reglen. Derudover fulgte en fast `top`/`right`-placering ikke knappen på forskellige skærmbredder.
+- **Vi ændrede eller mangler:** Vi rykkede `#login-popover::backdrop` ud på rod-niveau i CSS'en, tilføjede `white-space: nowrap` på `.login-trigger` og koblede boksen til knappen med `anchor-name` og `position-anchor`.
 
-## Eksempel 2: Skriv navnet på det valgte benspænd her
+## Eksempel 2: Genbrugelig komponent med `variant`-prop (`CoreValues.astro`) og animation med `interpolate-size` (`Faq.astro`)
 
 ### Hvor og hvorfor?
 
-Hvor i løsningen bruger du teknikken, og hvilket konkret problem løser den? Henvis gerne til en fil, fx `src/components/MinKomponent.astro`.
+På forsiden og about-siden (`src/pages/about.astro`) bruger vi den samme `CoreValues.astro`-komponent, men med en mørk variant på forsiden og en lys variant på `/about`. Ved at styre temaet med en `variant`-prop slipper vi for at duplikere HTML og grid-opsætning. I `src/components/Faq.astro` bruger vi desuden `interpolate-size: allow-keywords` og `::details-content` til at animere `<details>`-elementerne blødt mellem `0` og `auto` uden JavaScript.
 
 ### Relevant kode
-
-Indsæt en kort kodeblok fra din løsning her. Vælg fx `astro`, `css` eller `js`.
 
 ```astro
-// Din kode her
-# Refleksion – Figma til kode
+<!-- src/components/CoreValues.astro -->
+---
+const { variant = "dark" } = Astro.props;
+---
 
-_Gruppemedlemmer:_ Mikkel Ekhart Storm & Denzel Daniel Orbigo Padilla
-
-## Eksempel 1: Popover API og CSS-nesting
-
-### Hvor og hvorfor?
-
-Vi bruger Popover API i src/components/Header.astro til login-boksen. Det smarte er, at vi slipper for JavaScript til at åbne og lukke vinduet, fordi browseren selv lukker den, når man klikker ved siden af eller trykker ESC. Vi brugte samtidig CSS-nesting for at holde stylingen samlet inde i komponenten.
-
-### Relevant kode
-
+<section class={`core-values ${variant === "light" ? "light" : ""}`}>
+  <!-- Indhold -->
+</section>
 ```
 
-<!-- src/components/Header.astro -->
-<button class="login-btn" popovertarget="login-popover" type="button">
-  Login
-</button>
-
-<div id="login-popover" popover>
-  <div class="popover-content">
-    <h3>Sign In</h3>
-    <form class="login-form">...</form>
-  </div>
-</div>
-
-#login-popover {
-width: min(340px, 90vw);
-background-color: var(--color-ui-primary);
-
-.popover-content {
-display: flex;
-flex-direction: column;
-gap: var(--space-md);
-}
+```css
+/* src/components/Faq.astro */
+:root {
+  interpolate-size: allow-keywords;
 }
 
-````
+.faq-list details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.3s ease,
+    content-visibility 0.3s allow-discrete;
+}
+
+.faq-list details[open]::details-content {
+  block-size: auto;
+}
+```
 
 ### Afprøvning og ændringer
 
-- **Vi testede:** Beskriv situationen, fx en smal skærm, lang tekst eller tastaturbetjening.
-- **Vi observerede:** Hvad skete der helt konkret under testen?
-- **Vi ændrede eller mangler:** Hvad rettede du, eller hvad mangler stadig at blive fixet?
+- **Vi testede:** Vi testede tema-skiftet på `CoreValues.astro` på tværs af forsiden og `/about` samt åbning/lukning af spørgsmål i `Faq.astro`.
+- **Vi observerede:** Først havde vi kun én mørk udgave af `CoreValues.astro`, og `<details>` i FAQ'en åbnede uden overgang, fordi CSS normalt ikke kan animere til `height: auto` / `block-size: auto`.
+- **Vi ændrede eller mangler:** Vi tilføjede `variant`-proppen og `.light`-modifieren i `CoreValues.astro` og indførte `interpolate-size: allow-keywords` samt `::details-content` i `Faq.astro`.
 
-## Eksempel 3: CSS Subgrid i layout
+## Eksempel 3: CSS Subgrid i layout og Size Container Query i `TeamCard.astro`
 
 ### Hvor og hvorfor?
 
-Vi bruger det i `src/layouts/Layout.astro` til sidens overordnede layout-grid. Det gør, at alle vores sektioner arver de samme kolonner, så overskrifter og tekst automatisk flugter ned igennem siden uden ekstra wrappers.
+Vi bruger CSS Subgrid i `src/layouts/Layout.astro` til sidens overordnede `.page-grid`, så alle direkte sektioner under `<main>` arver de samme `full`- og `content`-kolonner. Derudover bruger vi en size container query i `src/components/TeamCard.astro`, så medarbejderkortene skifter fra et lodret kort til et horisontalt grid-layout, når kortet får tildelt mindst `440px` i bredden (f.eks. i 2-kolonne visningen på `/about` vs. 3-kolonne visningen på `/team`).
 
 ### Relevant kode
 
@@ -141,132 +130,50 @@ Vi bruger det i `src/layouts/Layout.astro` til sidens overordnede layout-grid. D
 .page-grid > :global(section > *) {
   grid-column: content;
 }
-````
+```
+
+```css
+/* src/components/TeamCard.astro */
+.team-card {
+  container-type: inline-size;
+  container-name: team-card;
+}
+
+@container team-card (min-width: 440px) {
+  .team-card-inner {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    grid-template-rows: 1fr auto;
+    column-gap: var(--space-lg);
+    align-items: center;
+  }
+}
+```
 
 ### Afprøvning og ændringer
 
-- **Vi testede:** Vi testede sidens bredde ved at trække i browseren på computeren.
-- **Vi observerede:** Teksten blev mast alt for langt ind mod midten, fordi vi både havde subgrid i layoutet og `max-width: 1200px` inde i sektionerne.
-- **Vi ændrede eller mangler:** Vi slettede de lokale bredder og ekstra divs i sektionerne, så det er subgriddet alene, der styrer bredden.
+- **Vi testede:** Vi testede sidens bredde ved at trække i browservinduet samt kortenes layout på `/team` og `/about`.
+- **Vi observerede:** Flere sektioner (som `Hero.astro`, `Contact.astro`, `Experiences.astro` og `WhatToExpect.astro`) havde stadig lokale `max-width: 1200px`-begrænsninger, hvilket gav dobbelt indrykning oven i subgriddet. Derudover forsøgte vores første container query at ændre `padding` og `gap` direkte på container-elementet, hvilket ikke virker i CSS.
+- **Vi ændrede eller mangler:** Vi slettede de lokale `max-width: 1200px`-regler i sektionerne, så subgriddet i `Layout.astro` styrer bredden alene, og vi flyttede `@container`-reglerne ned på det indre `.team-card-inner`-element i `TeamCard.astro`.
 
 ## Fallback og robusthed
 
-- **Fallback/progressive enhancement:** Vi bruger `backdrop-filter: blur(6px)` på popoverens baggrund. I browsere der ikke kan vise blur, vises den mørke farve (`rgba(0,0,0,0.45)`) bare i stedet. Vi har testet i Chrome og Firefox.
-- **Defensive CSS:** Vi har sat `white-space: nowrap` på login-knappen, så teksten ikke deler sig over to linjer på små skærme, og `width: min(340px, 90vw)` på popoveren, så den ikke laver vandret scroll på mobiler.
-- **Global CSS og komponent-CSS:** Vi har design-tokens og makrolayout liggende i `tokens.css` og `Layout.astro`. Al styling af selve komponenterne ligger lokalt inde i de enkelte `.astro`-filer, så de ikke forstyrrer hinanden.
+- **Fallback/progressive enhancement:**
+  - **Scroll-animationer:** Vi har testet siden i både Chrome (v130) og Firefox (v132). Scroll-animationerne på sektionerne og procentringene virker i Chrome (fra v115+), mens Firefox og Safari (v18) bare viser alting med det samme uden bevægelse, så man ikke går glip af noget indhold.
+  - **Login-boks og sløret baggrund:** At login-boksen hænger fast lige under login-knappen virker i nyere Chrome og Edge (v125+). I Firefox (v132) åbner boksen i stedet bare midt på skærmen, og hvis en browser ikke kan sløre baggrunden, bliver den bare mørk i stedet, så man stadig nemt kan læse og bruge den.
+  - **FAQ og team-kort:** Den glidende åbning i FAQ'en virker i nyere Chrome (v129+), mens Firefox (v132) og Safari (v18) bare åbner svarene med det samme uden animation. Team-kortene tilpasser sig pladsen i alle nyere browsere (Chrome v105+, Firefox v110+, Safari v16+), og i helt gamle browsere vises kortene bare i deres almindelige opstilling oven på hinanden.
+- **Defensive CSS:** Vi har sørget for, at logoet og login-knappen ikke deler sig over to linjer på små skærme (`white-space: nowrap`), og at login-boksen automatisk tilpasser sin bredde på mobilen (`width: min(340px, 90vw)`), så siden ikke får vandret scroll.
+- **Global CSS og komponent-CSS:** Farver, skrifttyper og det overordnede layout ligger samlet i `src/styles/main.css` og `src/layouts/Layout.astro`. Resten af CSS'en ligger inde i hver enkelt komponentfil, så vi ikke kommer til at ødelægge stylingen andre steder på siden.
 
 ## Brug af AI
 
 - **Hvad brugte I den til?**
-  Vi brugte Ai som en makker, vi kunne spørge til råds, når vi stødte på fejl, og til at tjekke op på regler i Popover API og subgrid f.eks.
+  Vi brugte AI som en sparringspartner, vi kunne spørge til råds, når vi sad fast i fejl, og til at tjekke op på regler i Popover API, CSS Anchor Positioning, container queries, `interpolate-size` og subgrid. Vi brugte den for eksempel, da hele vores header mistede sin styling, og da vores container query ikke slog igennem på selve container-elementet. Og til at hjælpe med at sætte vores refleksion op flot med markdown.
 
 - **Hvad ændrede eller fravalgte I i svaret?**
   Vi sagde nej til flere af de hurtige forslag:
-  - Da AI foreslog bare at skjule links på mobil med `display: none`, afviste vi det, fordi folk på mobilen jo stadig skal kunne finde rundt.
-  - Den gav os et tip om, hvorfor vores header crashede, men vi rettede og rykkede selv CSS'en ud af nestingen bagefter.
+  - Da den foreslog bare at skjule links på mobil med `display: none`, droppede vi det, fordi man jo stadig skal kunne finde rundt på mobilen.
+  - Den gav os et tip om, hvorfor vores header crashede, men vi rykkede selv `::backdrop` ud af nestingen bagefter og tilpassede koden til vores eget `<Button>`-komponent.
 
 - **Hvad lærte I, og hvordan kontrollerede I løsningen?**
-  Vi fandt ud af, at `::backdrop` ikke altid må nestes i Astro, og vi lærte, hvordan popover-attributter virker direkte i browseren uden JS. Vi tjekkede hele tiden koden selv ved at åbne Chrome DevTools, teste forskellige skærmstørrelser og klikke rundt for at sikre, at det virkede i praksis. Samt en masse om hvordan nesting fungere, og skal sættes op korrekt.
-- _Vi testede:_ Vi testede popoveren i Chrome på bærbar og i DevTools mobilview.
-- _Vi observerede:_ Al styling forsvandt helt på siden, fordi vi havde nestet &::backdrop inde i #login-popover, hvilket fik browseren til at smide hele stilarket ud.
-- _Vi ændrede eller mangler:_ Vi rykkede #login-popover::backdrop ud på sit eget rod-niveau i CSS'en, så stylingen slog igennem igen.
-
-## Eksempel 2: Fælles komponent
-
-### Hvor og hvorfor?
-
-På team-siden og about-siden skulle vi bruge en fælles card komponent, men have forskelligt layout og design. Det smarte ved at kunne gøre det, er at de deler samme html-indhold og struktur, og egentlig bare rette css'en til på deres egne sider.
-
-### Relevant kode
-
-```astro
-<section class="team-preview">
-  <div class="team-preview-grid">
-    <div class="preview-intro">
-      <span class="section-label">OUR TEAM</span>
-
-      <h2>We champion<br />the bold</h2>
-
-      <p>
-        Our success stems from the synergy between dedicated teams and valued
-        clients. We prioritize a company culture that fosters exceptional
-        productivity.
-      </p>
-
-      <a href="/team" class="button">Meet the Team</a>
-    </div>
-
-    <div class="preview-members">
-      {sarah && <TeamCard employee={sarah} />}
-      {john && <TeamCard employee={john} />}
-    </div>
-  </div>
-</section>
-```
-
-### Afprøvning og ændringer
-
-- _Vi testede:_ Vi prøvede først at gøre så vores komponent havde al html og general css, og så give de 2 sider forskellig specifik css, men det blev ved med at drille, så vi endte bare med at beslutte os for bare at bruge det præcis samme card på begge sider.
-- _Vi observerede:_ Vi prøvede også give komponenten all css til team-siden og prøve override det på about-siden, men det virkede heller ikke.
-- _Vi ændrede eller mangler:_ Vi endte med at bruge det samme card på begge sider, fordi det var den løsning, der fungerede bedst for os.
-
-## Eksempel 3: CSS Subgrid i layout
-
-### Hvor og hvorfor?
-
-Vi bruger det i src/layouts/Layout.astro til sidens overordnede layout-grid. Det gør, at alle vores sektioner arver de samme kolonner, så overskrifter og tekst automatisk flugter ned igennem siden uden ekstra wrappers.
-
-### Relevant kode
-
-```
-/_ src/layouts/Layout.astro _/
-.page-grid {
-display: grid;
-grid-template-columns:
-[full-start] minmax(var(--space-md), 1fr)
-[content-start] min(100% - (var(--space-md) \* 2), 1200px) [content-end]
-minmax(var(--space-md), 1fr) [full-end];
-}
-
-.page-grid > :global(section) {
-grid-column: full;
-display: grid;
-grid-template-columns: subgrid;
-}
-
-.page-grid > :global(section > \*) {
-grid-column: content;
-}
-```
-
-### Afprøvning og ændringer
-
-- _Vi testede:_ Vi testede sidens bredde ved at trække i browseren på computeren.
-- _Vi observerede:_ Teksten blev mast alt for langt ind mod midten, fordi vi både havde subgrid i layoutet og max-width: 1200px inde i sektionerne.
-- _Vi ændrede eller mangler:_ Vi slettede de lokale bredder og ekstra divs i sektionerne, så det er subgriddet alene, der styrer bredden.
-
-## Fallback og robusthed
-
-- _Fallback/progressive enhancement:_ Vi bruger backdrop-filter: blur(6px) på popoverens baggrund. I browsere der ikke kan vise blur, vises den mørke farve (rgba(0,0,0,0.45)) bare i stedet. Vi har testet i Chrome og Firefox.
-- _Defensive CSS:_ Vi har sat white-space: nowrap på login-knappen, så teksten ikke deler sig over to linjer på små skærme, og width: min(340px, 90vw) på popoveren, så den ikke laver vandret scroll på mobiler.
-- _Global CSS og komponent-CSS:_ Vi har design-tokens og makrolayout liggende i tokens.css og Layout.astro. Al styling af selve komponenterne ligger lokalt inde i de enkelte `.astro`-filer, så de ikke forstyrrer hinanden.
-- _Doughnut-diagrammerne:_ Vi tog udgangspunkt i at få dem til at virke i chrome først, men da animation-timeline: view() ikke er understøttet i Firefox endnu betød det at animationen aldrig startede og cirklerne bare stod fast på 0%.
-  Derfor implementerede vi en @supports-fallback. Firefox forstår godt @property og offset-path, så nu viser den de rigtige tal (85%, 95%, 90%), ringen og prikken statisk uden scroll-animationen.
-  Selvom nyere safari v26.0+ faktisk understøtter animation-timeline: view(), så stod tallene stadig på 0%, eftersom vores safari-browser ikke er up to date, men dette problem blev fikset ved at implementere round(), da safari ikke selv runder decimaltal af til heltal i vores counter-reset.
-
-## Brug af AI
-
-- _Hvad brugte I den til?_
-  Vi brugte Ai som en makker, vi kunne spørge til råds, når vi stødte på fejl, og til at tjekke op på regler i Popover API og subgrid f.eks.
-
-- _Hvad ændrede eller fravalgte I i svaret?_
-  Vi sagde nej til flere af de hurtige forslag:
-  - Da AI foreslog bare at skjule links på mobil med display: none, afviste vi det, fordi folk på mobilen jo stadig skal kunne finde rundt.
-  - Den gav os et tip om, hvorfor vores header crashede, men vi rettede og rykkede selv CSS'en ud af nestingen bagefter.
-
-- _Hvad lærte I, og hvordan kontrollerede I løsningen?_
-  Vi fandt ud af, at ::backdrop ikke altid må nestes i Astro, og vi lærte, hvordan popover-attributter virker direkte i browseren uden JS. Vi tjekkede hele tiden koden selv ved at åbne Chrome DevTools, teste forskellige skærmstørrelser og klikke rundt for at sikre, at det virkede i praksis. Samt en masse om hvordan nesting fungere, og skal sættes op korrekt.
-
-```
-
-```
+  Vi fandt ud af, at `::backdrop` ikke må nestes i Astro, at en `@container`-regel kun kan style børneelementer inde i containeren og ikke containeren selv, samt hvordan `@property`, `conic-gradient` og `offset-path` kan bruges til at bygge animerede doughnut-diagrammer i ren CSS. Vi tjekkede hele tiden koden selv ved at åbne Chrome DevTools og Firefox, teste forskellige skærmstørrelser og klikke rundt for at være sikre på, at det virkede i praksis.
