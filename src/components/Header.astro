@@ -105,6 +105,7 @@ import Button from "../components/Button.astro";
 
       .login-trigger {
         white-space: nowrap;
+        anchor-name: --login-anchor;
       }
     }
   }
@@ -119,11 +120,16 @@ import Button from "../components/Button.astro";
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
     width: min(340px, 90vw);
 
-    top: var(--space-xl, 1.5rem);
-    right: var(--space-xl, 1.5rem);
+    position: fixed;
+    position-anchor: --login-anchor;
+    
+    top: anchor(bottom);
+    right: anchor(right);
     bottom: auto;
     left: auto;
-    margin: 0;
+
+    margin-top: 0.5rem;
+    margin-right: 0;
 
     .popover-content {
       display: flex;
