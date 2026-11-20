@@ -1,15 +1,16 @@
 ---
-// src/components/CoreValues.astro
 import LayersIcon from "@icons/layers.svg";
 import BarsIcon from "@icons/bars.svg";
 import GlobeIcon from "@icons/globe.svg";
 import GearIcon from "@icons/gear.svg";
 
+const { variant = "dark" } = Astro.props;
+
 const response = await fetch("https://ftk-api.pages.dev/core-values");
 const data = await response.json();
 ---
 
-<section class="core-values">
+<section class={`core-values ${variant === "light" ? "light" : ""}`}>
   <div class="container">
     <div class="header">
       <div class="text">
@@ -75,6 +76,20 @@ const data = await response.json();
 
     @media (min-width: 1024px) {
       padding-block: var(--space-6xl);
+    }
+
+    &.light {
+      background-color: var(--color-surface-secondary);
+      color: var(--color-ui-primary);
+
+      .header .text p {
+        color: var(--color-text-muted);
+      }
+
+      .header .btn {
+        background-color: var(--color-ui-primary);
+        color: var(--color-on-ui-primary);
+      }
     }
 
     .container {
