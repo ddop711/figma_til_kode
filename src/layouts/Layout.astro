@@ -36,6 +36,23 @@ const { title = "" } = Astro.props;
           --sentinel: 1;
         }
       }
+
+      [scroll-trigger] {
+        --sentinel: 0;
+        animation: switchTrigger linear both;
+        animation-timeline: view();
+        animation-range: entry 25% entry 50%;
+      }
+
+      [scroll-trigger] .stat {
+        transition: --animatedNumber 1s ease;
+      }
+
+      @supports not (animation-timeline: view()) {
+        [scroll-trigger] {
+          --sentinel: 1;
+        }
+      }
     </style>
   </head>
   <body>
