@@ -5,6 +5,7 @@
 ## Eksempel 1: Popover API og CSS-nesting
 
 ### Hvor og hvorfor?
+
 Skriv jeres fælles refleksion direkte i denne fil. Erstat hjælpeteksterne med jeres egne erfaringer, og slet Markdown-guiden og demoen inden aflevering. Skriv kort og konkret, og brug eksempler fra jeres egen kode.
 
 Åbn forhåndsvisningen i VS Code med **Cmd + Shift + V** (Mac) eller **Ctrl + Shift + V** (Windows). Så ser I, hvordan Markdown bliver vist. På GitHub vises formateringen automatisk, når I åbner filen.
@@ -81,6 +82,7 @@ Vi bruger Popover API i src/components/Header.astro til login-boksen. Det smarte
 ### Relevant kode
 
 ```
+
 <!-- src/components/Header.astro -->
 <button class="login-btn" popovertarget="login-popover" type="button">
   Login
@@ -103,7 +105,8 @@ flex-direction: column;
 gap: var(--space-md);
 }
 }
-```
+
+````
 
 ### Afprøvning og ændringer
 
@@ -138,7 +141,7 @@ Vi bruger det i `src/layouts/Layout.astro` til sidens overordnede layout-grid. D
 .page-grid > :global(section > *) {
   grid-column: content;
 }
-```
+````
 
 ### Afprøvning og ændringer
 
@@ -163,7 +166,7 @@ Vi bruger det i `src/layouts/Layout.astro` til sidens overordnede layout-grid. D
   - Den gav os et tip om, hvorfor vores header crashede, men vi rettede og rykkede selv CSS'en ud af nestingen bagefter.
 
 - **Hvad lærte I, og hvordan kontrollerede I løsningen?**
-  Vi fandt ud af, at `::backdrop` ikke altid må nestes i Astro, og vi lærte, hvordan popover-attributter virker direkte i browseren uden JS. Vi tjekkede hele tiden koden selv ved at åbne Chrome DevTools, teste forskellige skærmstørrelser og klikke rundt for at sikre, at det virkede i praksis. Samt en masse om hvordan nesting fungere, og skal sættes op korrekt. 
+  Vi fandt ud af, at `::backdrop` ikke altid må nestes i Astro, og vi lærte, hvordan popover-attributter virker direkte i browseren uden JS. Vi tjekkede hele tiden koden selv ved at åbne Chrome DevTools, teste forskellige skærmstørrelser og klikke rundt for at sikre, at det virkede i praksis. Samt en masse om hvordan nesting fungere, og skal sættes op korrekt.
 - _Vi testede:_ Vi testede popoveren i Chrome på bærbar og i DevTools mobilview.
 - _Vi observerede:_ Al styling forsvandt helt på siden, fordi vi havde nestet &::backdrop inde i #login-popover, hvilket fik browseren til at smide hele stilarket ud.
 - _Vi ændrede eller mangler:_ Vi rykkede #login-popover::backdrop ud på sit eget rod-niveau i CSS'en, så stylingen slog igennem igen.
@@ -247,6 +250,9 @@ grid-column: content;
 - _Fallback/progressive enhancement:_ Vi bruger backdrop-filter: blur(6px) på popoverens baggrund. I browsere der ikke kan vise blur, vises den mørke farve (rgba(0,0,0,0.45)) bare i stedet. Vi har testet i Chrome og Firefox.
 - _Defensive CSS:_ Vi har sat white-space: nowrap på login-knappen, så teksten ikke deler sig over to linjer på små skærme, og width: min(340px, 90vw) på popoveren, så den ikke laver vandret scroll på mobiler.
 - _Global CSS og komponent-CSS:_ Vi har design-tokens og makrolayout liggende i tokens.css og Layout.astro. Al styling af selve komponenterne ligger lokalt inde i de enkelte `.astro`-filer, så de ikke forstyrrer hinanden.
+- _Doughnut-diagrammerne:_ Vi tog udgangspunkt i at få dem til at virke i chrome først, men da animation-timeline: view() ikke er understøttet i Firefox endnu betød det at animationen aldrig startede og cirklerne bare stod fast på 0%.
+  Derfor implementerede vi en @supports-fallback. Firefox forstår godt @property og offset-path, så nu viser den de rigtige tal (85%, 95%, 90%), ringen og prikken statisk uden scroll-animationen.
+  Selvom nyere safari v26.0+ faktisk understøtter animation-timeline: view(), så stod tallene stadig på 0%, eftersom vores safari-browser ikke er up to date, men dette problem blev fikset ved at implementere round(), da safari ikke selv runder decimaltal af til heltal i vores counter-reset.
 
 ## Brug af AI
 
