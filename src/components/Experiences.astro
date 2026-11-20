@@ -11,30 +11,45 @@ const data = await response.json();
       <p class="desc">{data.subtitle}</p>
     </div>
 
-    <div class="stats">
-      <div class="stat-item">
-        <div class="circle dot-85">
-          <span class="value">{data.stats[0].value}%</span>
+    <div class="stats" scroll-trigger>
+      {data.stats.map((stat) => (
+        <div class="stat-item">
+          <div
+            class="stat"
+            style={`--percent: ${Math.min(100, Math.max(0, Number(stat.value) || 0))}`}
+          ></div>
+          <p class="label">{stat.label}</p>
         </div>
-        <p class="label">{data.stats[0].label}</p>
-      </div>
-
-      <div class="stat-item">
-        <div class="circle dot-95">
-          <span class="value">{data.stats[1].value}%</span>
-        </div>
-        <p class="label">{data.stats[1].label}</p>
-      </div>
-
-      <div class="stat-item">
-        <div class="circle dot-90">
-          <span class="value">{data.stats[2].value}%</span>
-        </div>
-        <p class="label">{data.stats[2].label}</p>
-      </div>
+      ))}
     </div>
   </div>
 </section>
+
+<style is:global>
+  @property --sentinel {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @property --animatedNumber {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @property --integerPercent {
+    syntax: "<integer>";
+    inherits: true;
+    initial-value: 0;
+  }
+
+  @keyframes --switch {
+    to {
+      --sentinel: 1;
+    }
+  }
+</style>
 
 <style>
   .experience {
@@ -49,127 +64,165 @@ const data = await response.json();
       padding-block: var(--space-6xl);
       padding-inline: var(--space-2xl);
     }
+  }
 
-    .container {
-      margin-inline: auto;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3xl);
+  .container {
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
 
-      @media (min-width: 1024px) {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .info {
-        max-width: 440px;
-
-        .eyebrow {
-          display: block;
-          font-size: var(--font-size-sm);
-          font-family: var(--font-family-secondary);
-          font-weight: 700;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          margin-bottom: var(--space-xs);
-        }
-
-        .title {
-          font-size: var(--font-size-xl);
-          font-family: var(--font-family-primary);
-          font-weight: 700;
-          line-height: var(--line-height-heading);
-          margin-block: 0 var(--space-sm);
-        }
-
-        .desc {
-          font-size: var(--font-size-base);
-          font-family: var(--font-family-secondary);
-          line-height: var(--line-height-body);
-          margin: 0;
-        }
-      }
-
-      .stats {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-2xl);
-        width: 100%;
-
-        @media (min-width: 600px) {
-          flex-direction: row;
-          justify-content: center;
-          gap: var(--space-3xl);
-        }
-
-        @media (min-width: 1024px) {
-          justify-content: flex-end;
-        }
-
-        .stat-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: var(--space-md);
-
-          .circle {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            aspect-ratio: 1 / 1;
-            border-radius: 9999px !important;
-            border: 3.5px solid var(--color-surface-primary);
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .value {
-              font-size: var(--font-size-xl);
-              font-family: var(--font-family-primary);
-              font-weight: 700;
-              line-height: 1;
-            }
-
-            &::after {
-              content: "";
-              position: absolute;
-              width: var(--space-md);
-              height: var(--space-md);
-              background-color: var(--color-ui-primary);
-              border: 2.5px solid var(--color-surface-primary);
-              border-radius: 9999px !important;
-              box-sizing: border-box;
-              transform: translate(-50%, -50%);
-            }
-
-            &.dot-85::after {
-              top: 20%;
-              left: 9%;
-            }
-
-            &.dot-95::after {
-              top: 2%;
-              left: 35%;
-            }
-
-            &.dot-90::after {
-              top: 9%;
-              left: 20%;
-            }
-          }
-
-          .label {
-            font-family: var(--font-family-secondary);
-            font-weight: 700;
-            font-size: var(--font-size-base);
-            margin: 0;
-            text-align: center;
-          }
-        }
-      }
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
+  }
+
+  .info {
+    max-width: 440px;
+  }
+
+  .eyebrow {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-family: var(--font-family-secondary);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+  }
+
+  .title {
+    font-size: var(--font-size-xl);
+    font-family: var(--font-family-primary);
+    font-weight: 700;
+    line-height: var(--line-height-heading);
+    margin-block: 0 var(--space-sm);
+  }
+
+  .desc {
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-secondary);
+    line-height: var(--line-height-body);
+    margin: 0;
+  }
+
+  /* Scroll-trigger og overgang */
+  [scroll-trigger] {
+    --sentinel: 0;
+    --transition-duration: 1s;
+
+    animation: --switch linear both;
+    animation-timeline: view();
+    animation-range: entry 25% entry 50%;
+
+    .stat {
+      transition: var(--transition-duration) --animatedNumber ease;
+    }
+  }
+
+  /* Fallback til browsere uden scroll-driven animations */
+  @supports not (animation-timeline: view()) {
+    [scroll-trigger] {
+      --sentinel: 1;
+    }
+  }
+
+  .stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2xl);
+    width: 100%;
+
+    @media (min-width: 600px) {
+      flex-direction: row;
+      justify-content: center;
+      gap: var(--space-3xl);
+    }
+
+    @media (min-width: 1024px) {
+      justify-content: flex-end;
+    }
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .stat {
+    --animatedNumber: calc(var(--percent) * var(--sentinel));
+    --integerPercent: round(nearest, var(--animatedNumber), 1);
+    --actualPercent: calc(var(--animatedNumber) * 1%);
+    --border-width: 4px;
+    --track-color: color-mix(in srgb, var(--color-ui-primary) 18%, transparent);
+
+    aspect-ratio: 1;
+    width: 130px;
+    border-radius: calc(infinity * 1px);
+    border: var(--border-width) solid transparent;
+    box-sizing: border-box;
+
+    background:
+      conic-gradient(var(--color-action) 0 0) padding-box,
+      radial-gradient(
+        circle at calc(50% + 0.5px) calc(var(--border-width) / 2),
+        var(--color-surface-primary) calc(var(--border-width) / 2),
+        transparent 0
+      ) border-box,
+      conic-gradient(
+        var(--color-surface-primary) var(--actualPercent),
+        var(--track-color) 0
+      ) border-box;
+
+    display: grid;
+    counter-reset: c var(--integerPercent);
+  }
+
+  .stat::before,
+  .stat::after {
+    grid-area: 1 / 1;
+  }
+
+  /* Procent-tallet i midten */
+  .stat::after {
+    content: counter(c) "%";
+    place-self: center;
+    font-size: var(--font-size-xl);
+    font-family: var(--font-family-primary);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-ui-primary);
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Prikken der følger ringen */
+  .stat::before {
+    content: "";
+    aspect-ratio: 1;
+    border-radius: 99px;
+    width: 18px;
+    box-sizing: border-box;
+    background: var(--color-ui-primary);
+    border: 3.5px solid var(--color-surface-primary);
+    z-index: 3;
+
+    offset-path: border-box;
+    offset-distance: var(--actualPercent);
+    offset-anchor: 50% calc(50% - var(--border-width) / 2);
+  }
+
+  .stat-item .label {
+    font-family: var(--font-family-secondary);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    margin: 0;
+    text-align: center;
   }
 </style>
